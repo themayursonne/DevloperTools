@@ -1,65 +1,65 @@
 <mat-card class="editor-card">
-    <div class="editor-layout">
-      <!-- Left Side: Main Content -->
-      <div class="main-content">
-        <mat-card-title>JSON Editor</mat-card-title>
-        <div class="input-area">
-          
-          <div class="textarea-container">
-            
-            <mat-form-field appearance="fill">
-              <mat-label>Enter JSON</mat-label>
-              <textarea
-                #jsonInputTextarea
-                matInput
-                [(ngModel)]="jsonInput"
-                (ngModelChange)="onJsonInputChange()"
-                rows="10"
-                cols="50"
-              ></textarea>
-            </mat-form-field>
+  <div class="editor-layout">
+    <!-- Left Side: Main Content -->
+    <div class="main-content">
+      <mat-card-title>JSON Editor</mat-card-title>
+
+      <div class="input-area">
+        <!-- Line Numbers -->
+        <div class="input-line-numbers">
+          <div class="input-line-numbers-inner">
+            <div *ngFor="let lineNumber of lineNumbers" class="line-number">{{ lineNumber }}</div>
           </div>
         </div>
-        <div>
-          <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput.trim()">Format</button>
-          <button mat-raised-button color="accent" (click)="validateJson()" [disabled]="!jsonInput.trim()">Validate</button>
-          <button mat-raised-button (click)="clearInput()">Clear</button>
-          <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!(formattedJson || jsonInput)">Copy</button>
-        </div>
-        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-        <mat-radio-group [(ngModel)]="viewMode" (ngModelChange)="saveToLocalStorage()" class="view-mode" aria-label="View Mode">
-          <mat-radio-button value="text">Text</mat-radio-button>
-          <!-- <mat-radio-button value="tree">Tree</mat-radio-button> -->
-        </mat-radio-group>
-        <div *ngIf="viewMode === 'text' && formattedJson" class="result">
-          <pre>{{ formattedJson }}</pre>
-        </div>
-        <div *ngIf="viewMode === 'tree' && jsonTree.length" class="tree-view">
-          <ul>
-            <li *ngFor="let node of jsonTree">
-              {{ node.key }}: {{ this.formatValue(node.value) }}
-              <ul *ngIf="node.children && node.children.length">
-                <li *ngFor="let child of node.children">
-                  {{ child.key }}: {{ this.formatValue(child.value) }}
-                </li>
-              </ul>
-            </li>
-          </ul>
+
+        <!-- Textarea -->
+        <div class="textarea-container">
+          <mat-form-field appearance="fill">
+            <mat-label>Enter JSON</mat-label>
+            <textarea
+              #jsonInputTextarea
+              matInput
+              [(ngModel)]="jsonInput"
+              (ngModelChange)="onJsonInputChange()"
+              rows="10"
+              cols="50"
+            ></textarea>
+          </mat-form-field>
         </div>
       </div>
-  
-      <!-- Partition/Divider -->
-      <div class="partition"></div>
-  
-      <!-- Right Side: How to Use (Displayed by Default) -->
-      <div class="how-to-use-container">
-        <mat-card-subtitle>How to Use</mat-card-subtitle>
-        <div class="how-to-use-content">
-          <p>1. Enter JSON in the input area.</p>
-          <p>2. Use "Format" to prettify the JSON with indentation, or "Validate" to check its validity.</p>
-          <p>3. Choose to view the result as Text or Tree using the radio buttons.</p>
-          <p>4. Use "Copy" to copy the result, or "Clear" to reset.</p>
-        </div>
+
+      <div>
+        <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput.trim()">Format</button>
+        <button mat-raised-button color="accent" (click)="validateJson()" [disabled]="!jsonInput.trim()">Validate</button>
+        <button mat-raised-button (click)="clearInput()">Clear</button>
+        <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!(formattedJson || jsonInput)">
+          Copy
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+      <mat-radio-group [(ngModel)]="viewMode" (ngModelChange)="saveToLocalStorage()" class="view-mode" aria-label="View Mode">
+        <mat-radio-button value="text">Text</mat-radio-button>
+      </mat-radio-group>
+
+      <div *ngIf="viewMode === 'text' && formattedJson" class="result">
+        <pre>{{ formattedJson }}</pre>
       </div>
     </div>
-  </mat-card>
+
+    <!-- Partition/Divider -->
+    <div class="partition"></div>
+
+    <!-- Right Side: How to Use -->
+    <div class="how-to-use-container">
+      <mat-card-subtitle>How to Use</mat-card-subtitle>
+      <div class="how-to-use-content">
+        <p>1. Enter JSON in the input area.</p>
+        <p>2. Use "Format" to prettify the JSON with indentation, or "Validate" to check its validity.</p>
+        <p>3. Choose to view the result as Text.</p>
+        <p>4. Use "Copy" to copy the result, or "Clear" to reset.</p>
+      </div>
+    </div>
+  </div>
+</mat-card>
