@@ -1,0 +1,30 @@
+<mat-card>
+    <mat-card-title>Code Beautifier</mat-card-title>
+    <mat-card-subtitle>How to Use: <button mat-button (click)="toggleHowToUse()">Toggle</button></mat-card-subtitle>
+    <div *ngIf="showHowToUse" class="how-to-use">
+      <p>1. Select a language (JavaScript, HTML, or CSS).</p>
+      <p>2. Enter your code in the input area.</p>
+      <p>3. Click "Beautify" to format the code with proper indentation and structure.</p>
+      <p>4. Use "Copy" to copy the formatted result, or "Clear" to reset.</p>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Language</mat-label>
+      <mat-select [(ngModel)]="selectedLanguage" (ngModelChange)="saveToLocalStorage()">
+        <mat-option value="javascript">JavaScript</mat-option>
+        <mat-option value="html">HTML</mat-option>
+        <mat-option value="css">CSS</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Code</mat-label>
+      <textarea matInput [(ngModel)]="codeInput" (ngModelChange)="saveToLocalStorage()" rows="10" cols="50"></textarea>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="beautifyCode()" [disabled]="isLoading">Beautify</button>
+      <button mat-raised-button (click)="clearInput()">Clear</button>
+      <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!beautifiedCode">Copy</button>
+      <span *ngIf="isLoading">Formatting...</span>
+    </div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <pre>{{ beautifiedCode }}</pre>
+  </mat-card>

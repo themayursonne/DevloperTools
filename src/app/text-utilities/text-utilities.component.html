@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-title>Text Utilities</mat-card-title>
+    <mat-card-subtitle>How to Use: <button mat-button (click)="toggleHowToUse()">Toggle</button></mat-card-subtitle>
+    <div *ngIf="showHowToUse" class="how-to-use">
+      <p>1. Enter text in the input area.</p>
+      <p>2. Use buttons to transform text (Uppercase, Lowercase, Title Case, Remove Extra Spaces, or Format).</p>
+      <p>3. See the word count and use "Copy" to copy the result, or "Clear" to reset.</p>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Text</mat-label>
+      <textarea matInput [(ngModel)]="textInput" (ngModelChange)="saveToLocalStorage()" rows="10" cols="50"></textarea>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="toUpperCase()">Uppercase</button>
+      <button mat-raised-button color="primary" (click)="toLowerCase()">Lowercase</button>
+      <button mat-raised-button color="primary" (click)="toTitleCase()">Title Case</button>
+      <button mat-raised-button color="primary" (click)="removeExtraSpaces()">Remove Extra Spaces</button>
+      <button mat-raised-button color="primary" (click)="formatText()">Format</button>
+      <button mat-raised-button (click)="clearInput()">Clear</button>
+      <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!textInput && !formattedText">Copy</button>
+    </div>
+    <div>Word Count: {{ wordCount }}</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <pre *ngIf="formattedText">{{ formattedText }}</pre>
+  </mat-card>
