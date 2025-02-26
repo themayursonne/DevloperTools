@@ -5,7 +5,7 @@ import { CodeBeautifierComponent } from './code-beautifier/code-beautifier.compo
 import { ImageSizeConverterComponent } from './image-size-convertor/image-size-converter.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/json-editor', pathMatch: 'full' },
+  { path: '', redirectTo: 'json-editor', pathMatch: 'full' },
   { path: 'json-editor', component: JsonEditorComponent },
   { path: 'text-utilities', component: TextUtilitiesComponent },
   { path: 'code-beautifier', component: CodeBeautifierComponent },
