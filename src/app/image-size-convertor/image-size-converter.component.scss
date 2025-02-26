@@ -1,0 +1,26 @@
+.converter-card {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  
+    .upload-section,
+    .target-size-section {
+      margin-bottom: 20px;
+    }
+  
+    .resized-image {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+  
+    .loading {
+      margin-top: 10px;
+      color: #f57c00;
+      font-weight: bold;
+    }
+  }
+  

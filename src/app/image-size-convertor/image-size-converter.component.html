@@ -1,0 +1,25 @@
+<mat-card class="converter-card">
+    <mat-card-title>Image Size Converter</mat-card-title>
+  
+    <div class="upload-section">
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+    </div>
+  
+    <div *ngIf="originalImage" class="target-size-section">
+      <mat-form-field appearance="outline">
+        <mat-label>Target Size (KB)</mat-label>
+        <input matInput type="number" [(ngModel)]="targetSizeKB" min="10" max="5120" />
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" (click)="resizeImage()">Resize</button>
+    </div>
+  
+    <div *ngIf="loading" class="loading">Resizing image, please wait...</div>
+  
+    <div *ngIf="resizedImageURL" class="result-section">
+      <mat-card-subtitle>Resized Image Preview</mat-card-subtitle>
+      <img [src]="resizedImageURL" alt="Resized Image" class="resized-image" />
+      <button mat-raised-button color="accent" (click)="downloadImage()">Download Resized Image</button>
+    </div>
+  </mat-card>
+  
