@@ -62,12 +62,74 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
     }
 
     try {
-      const parsed = JSON.parse(this.jsonInput);
-      this.formattedJson = JSON.stringify(parsed, null, 2);
+      // Basic validation to ensure it's JSON-like before formatting
+      const trimmedInput = this.jsonInput.trim();
+      if (!trimmedInput.startsWith('{') && !trimmedInput.startsWith('[')) {
+        throw new Error('Not a valid JSON structure');
+      }
+
+      // Custom formatting to preserve duplicates
+      this.formattedJson = this.formatJsonWithDuplicates(this.jsonInput);
       this.errorMessage = 'Formatted successfully!';
     } catch (e) {
       this.errorMessage = 'Invalid JSON: Syntax error.';
     }
+  }
+
+  // Custom method to format JSON while preserving duplicates
+  formatJsonWithDuplicates(jsonStr: string): string {
+    let indentLevel = 0;
+    const indent = '  '; // 2 spaces
+    let result = '';
+    let inString = false;
+
+    for (let i = 0; i < jsonStr.length; i++) {
+      const char = jsonStr[i];
+
+      if (char === '"') {
+        inString = !inString;
+        result += char;
+        continue;
+      }
+
+      if (inString) {
+        result += char;
+        continue;
+      }
+
+      switch (char) {
+        case '{':
+        case '[':
+          result += char + '\n';
+          indentLevel++;
+          result += indent.repeat(indentLevel);
+          break;
+        case '}':
+        case ']':
+          result += '\n';
+          indentLevel--;
+          result += indent.repeat(indentLevel) + char;
+          break;
+        case ',':
+          result += char + '\n' + indent.repeat(indentLevel);
+          break;
+        case ':':
+          result += char + ' ';
+          break;
+        case ' ':
+        case '\n':
+        case '\t':
+          // Skip excessive whitespace unless in a string
+          if (result.slice(-1) !== ' ' && result.slice(-1) !== '\n') {
+            result += ' ';
+          }
+          break;
+        default:
+          result += char;
+      }
+    }
+
+    return result.trim();
   }
 
   validateJson() {
@@ -77,8 +139,9 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
     }
 
     try {
+      // Use JSON.parse to validate, but this won't preserve duplicates
       JSON.parse(this.jsonInput);
-      this.errorMessage = 'Valid JSON';
+      this.errorMessage = 'Valid JSON (Note: Duplicates will be ignored by standard parsers)';
     } catch (e) {
       this.errorMessage = 'Invalid JSON: Syntax error.';
     }
