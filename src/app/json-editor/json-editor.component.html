@@ -4,12 +4,9 @@
       <div class="main-content">
         <mat-card-title>JSON Editor</mat-card-title>
         <div class="input-area">
-          <div class="input-line-numbers">
-            <div class="input-line-numbers-inner">
-              <div *ngFor="let num of lineNumbers" class="line-number">{{ num }}</div>
-            </div>
-          </div>
+          
           <div class="textarea-container">
+            
             <mat-form-field appearance="fill">
               <mat-label>Enter JSON</mat-label>
               <textarea
@@ -32,12 +29,9 @@
         <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
         <mat-radio-group [(ngModel)]="viewMode" (ngModelChange)="saveToLocalStorage()" class="view-mode" aria-label="View Mode">
           <mat-radio-button value="text">Text</mat-radio-button>
-          <mat-radio-button value="tree">Tree</mat-radio-button>
+          <!-- <mat-radio-button value="tree">Tree</mat-radio-button> -->
         </mat-radio-group>
         <div *ngIf="viewMode === 'text' && formattedJson" class="result">
-          <div class="line-numbers">
-            <span *ngFor="let line of getLineNumbers(formattedJson)" class="line-number">{{ line }}</span>
-          </div>
           <pre>{{ formattedJson }}</pre>
         </div>
         <div *ngIf="viewMode === 'tree' && jsonTree.length" class="tree-view">
