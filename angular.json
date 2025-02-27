@@ -48,10 +48,9 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets",
+              "src/_redirects"  // ✅ Added _redirects file
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
@@ -113,10 +112,9 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets",
+              "src/_redirects"  // ✅ Added _redirects file for tests too
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
