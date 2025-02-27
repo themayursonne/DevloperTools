@@ -5,7 +5,7 @@ import { getContext } from '@netlify/angular-runtime/context'
 const angularAppEngine = new AngularAppEngine()
 
 // 2. Netlify SSR function
-export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
+export async function server(request: Request): Promise<Response> {
   // Retrieve Netlify context
   const context = getContext()
 
@@ -15,4 +15,5 @@ export async function netlifyAppEngineHandler(request: Request): Promise<Respons
 }
 
 // 3. Request handler used by the Angular CLI (dev-server and during build)
-export const reqHandler = createRequestHandler(netlifyAppEngineHandler)
+export const reqHandler = createRequestHandler(server);
+
