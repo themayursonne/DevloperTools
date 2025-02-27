@@ -1,19 +1,17 @@
 import { AngularAppEngine, createRequestHandler } from '@angular/ssr'
 import { getContext } from '@netlify/angular-runtime/context'
 
-// 1. Create a single instance of the Angular SSR engine
+// Create an instance of the Angular SSR engine
 const angularAppEngine = new AngularAppEngine()
 
-// 2. Netlify SSR function
-export async function server(request: Request): Promise<Response> {
-  // Retrieve Netlify context
+// Netlify SSR function - This MUST be named `netlifyAppEngineHandler`
+export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
   const context = getContext()
 
-  // Pass request + context to Angular SSR
+  // Allow Angular to handle the request
   const result = await angularAppEngine.handle(request, context)
-  return result ?? new Response('Not found', { status: 404 })
+  return result || new Response('Not found', { status: 404 })
 }
 
-// 3. Request handler used by the Angular CLI (dev-server and during build)
-export const reqHandler = createRequestHandler(server);
-
+// Request handler used by Angular CLI
+export const reqHandler = createRequestHandler(netlifyAppEngineHandler)
