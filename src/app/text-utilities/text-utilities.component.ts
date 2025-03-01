@@ -6,11 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ToolLayoutComponent } from '../shared/tool-layout.component';
 
 @Component({
   selector: 'app-text-utilities',
   standalone: true,
-  imports: [FormsModule, NgIf, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [ToolLayoutComponent,FormsModule, NgIf, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './text-utilities.component.html',
   styleUrls: ['./text-utilities.component.scss']
 })
@@ -23,11 +24,13 @@ export class TextUtilitiesComponent implements OnInit {
   constructor(private clipboard: Clipboard) {}
 
   ngOnInit() {
-    this.textInput = typeof window !== 'undefined' ? localStorage.getItem('textInput') || '' : '';
+    if (typeof window !== 'undefined') {
+      this.textInput = localStorage.getItem('textInput') || '';
+    }
   }
 
   get wordCount(): number {
-    return this.textInput.split(/\s+/).filter(word => word.length > 0).length;
+    return this.textInput.trim() ? this.textInput.trim().split(/\s+/).length : 0;
   }
 
   toUpperCase() {
@@ -39,9 +42,12 @@ export class TextUtilitiesComponent implements OnInit {
     this.textInput = this.textInput.toLowerCase();
     this.saveToLocalStorage();
   }
-
+  updateWordCount() {
+    // ✅ Fix: This function now exists to prevent template errors
+    this.wordCount;
+  }
   toTitleCase() {
-    this.textInput = this.textInput.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    this.textInput = this.textInput.replace(/\b\w/g, char => char.toUpperCase());
     this.saveToLocalStorage();
   }
 
@@ -56,17 +62,18 @@ export class TextUtilitiesComponent implements OnInit {
       this.formattedText = '';
       return;
     }
+
     this.formattedText = this.textInput
-      .replace(/\s+/g, ' ')
+      .replace(/\s+/g, ' ') // Remove extra spaces
       .trim()
-      .replace(/\s*([.!?])\s*/g, '$1 ') // Normalize punctuation spacing
-      .toLowerCase()
-      .replace(/(^|\s)([a-z])/g, (match, p1, p2) => p1 + p2.toUpperCase()); // Title case sentences
+      .replace(/([.!?])\s*(\w)/g, (match, p1, p2) => `${p1} ${p2.toUpperCase()}`) // Fix punctuation spacing
+      .replace(/^\w/, char => char.toUpperCase()); // Capitalize first letter
+
     this.errorMessage = '';
   }
 
   saveToLocalStorage() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && this.textInput !== localStorage.getItem('textInput')) {
       localStorage.setItem('textInput', this.textInput);
     }
   }
@@ -81,13 +88,13 @@ export class TextUtilitiesComponent implements OnInit {
   }
 
   copyResult() {
-    if (this.formattedText || this.textInput) {
-      const textToCopy = this.formattedText || this.textInput;
+    const textToCopy = this.formattedText || this.textInput;
+    if (textToCopy) {
       this.clipboard.copy(textToCopy);
-      this.errorMessage = 'Text copied to clipboard!';
-      setTimeout(() => (this.errorMessage = ''), 3000); // Clear message after 3 seconds
+      this.errorMessage = '✅ Text copied!';
+      setTimeout(() => (this.errorMessage = ''), 3000);
     } else {
-      this.errorMessage = 'No text to copy.';
+      this.errorMessage = '⚠ No text to copy.';
     }
   }
 

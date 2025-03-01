@@ -1,82 +1,45 @@
-<!-- SEO Meta Tags -->
-<head>
-  <title>Text Utilities Online | Convert & Format Text Instantly</title>
-  <meta name="description" content="Use our free Text Utilities tool to transform text into uppercase, lowercase, title case, or remove extra spaces. Fast, simple, and easy to use!">
-  <meta name="keywords" content="Text Utilities, Online Text Formatter, Uppercase, Lowercase, Title Case Converter">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="devlopertools.com">
+<app-tool-layout
+  title="Text Utilities - Format & Convert Text Easily"
+  subtitle="Transform text into uppercase, lowercase, title case, or remove extra spaces instantly."
+  [howToUse]="[
+    'Enter text in the input area.',
+    'Use buttons to transform text (Uppercase, Lowercase, Title Case, Remove Extra Spaces, Format).',
+    'See the word count and use Copy to copy the result or Clear to reset.'
+  ]"
+>
+  <div tool-content>
+    <div class="input-area">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter Text</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="textInput"
+          (ngModelChange)="updateWordCount()"
+          rows="10"
+          cols="50"
+          placeholder="Paste your text here..."
+          aria-label="Text Input"
+        ></textarea>
+      </mat-form-field>
+    </div>
 
-  <!-- Open Graph for Social Media -->
-  <meta property="og:title" content="Text Utilities Online | Convert & Format Text Instantly">
-  <meta property="og:description" content="Free online tool to format text, convert case, and remove extra spaces. Try now!">
-  <meta property="og:url" content="https://www.devlopertools.com/text-utilities">
-  <meta property="og:image" content="https://www.devlopertools.com/assets/text-utilities-preview.png">
-  <meta property="og:type" content="website">
+    <div>
+      <button mat-raised-button color="primary" (click)="toUpperCase()">Uppercase</button>
+      <button mat-raised-button color="primary" (click)="toLowerCase()">Lowercase</button>
+      <button mat-raised-button color="primary" (click)="toTitleCase()">Title Case</button>
+      <button mat-raised-button color="primary" (click)="removeExtraSpaces()">Remove Extra Spaces</button>
+      <button mat-raised-button color="primary" (click)="formatText()">Format</button>
+      <button mat-raised-button (click)="clearInput()">Clear</button>
+      <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!textInput && !formattedText">
+        Copy
+      </button>
+    </div>
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Text Utilities Online | Convert & Format Text">
-  <meta name="twitter:description" content="Use our free Text Utilities tool to transform text into uppercase, lowercase, title case, or remove extra spaces.">
-</head>
-
-<mat-card>
-  <mat-card-title>Text Utilities - Format & Convert Text Easily</mat-card-title>
-  <mat-card-subtitle>
-    How to Use: 
-    <button mat-button (click)="toggleHowToUse()" aria-label="Toggle Instructions">Toggle</button>
-  </mat-card-subtitle>
-
-  <div *ngIf="showHowToUse" class="how-to-use">
-    <p>1. Enter text in the input area.</p>
-    <p>2. Use buttons to transform text (Uppercase, Lowercase, Title Case, Remove Extra Spaces, or Format).</p>
-    <p>3. See the word count and use "Copy" to copy the result, or "Clear" to reset.</p>
+    <div aria-live="polite">Word Count: {{ wordCount }}</div>
+    <div *ngIf="errorMessage" class="error" role="alert">{{ errorMessage }}</div>
+    
+    <div *ngIf="formattedText" class="result">
+      <pre>{{ formattedText }}</pre>
+    </div>
   </div>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Enter Text</mat-label>
-    <textarea
-      matInput
-      [(ngModel)]="textInput"
-      (ngModelChange)="saveToLocalStorage()"
-      rows="10"
-      cols="50"
-      placeholder="Paste your text here..."
-      aria-label="Text Input"
-    ></textarea>
-  </mat-form-field>
-
-  <div>
-    <button mat-raised-button color="primary" (click)="toUpperCase()" aria-label="Convert to Uppercase">Uppercase</button>
-    <button mat-raised-button color="primary" (click)="toLowerCase()" aria-label="Convert to Lowercase">Lowercase</button>
-    <button mat-raised-button color="primary" (click)="toTitleCase()" aria-label="Convert to Title Case">Title Case</button>
-    <button mat-raised-button color="primary" (click)="removeExtraSpaces()" aria-label="Remove Extra Spaces">Remove Extra Spaces</button>
-    <button mat-raised-button color="primary" (click)="formatText()" aria-label="Format Text">Format</button>
-    <button mat-raised-button (click)="clearInput()" aria-label="Clear Text">Clear</button>
-    <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!textInput && !formattedText" aria-label="Copy Text">
-      Copy
-    </button>
-  </div>
-
-  <div aria-live="polite">Word Count: {{ wordCount }}</div>
-  <div *ngIf="errorMessage" class="error" role="alert">{{ errorMessage }}</div>
-  
-  <pre *ngIf="formattedText" aria-live="polite">{{ formattedText }}</pre>
-</mat-card>
-
-<!-- JSON-LD Schema Markup for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Text Utilities",
-  "url": "https://www.devlopertools.com/text-utilities",
-  "description": "Free online text utilities to convert case, format text, and remove extra spaces instantly.",
-  "applicationCategory": "WebApplication",
-  "operatingSystem": "All",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "200"
-  }
-}
-</script>
+</app-tool-layout>

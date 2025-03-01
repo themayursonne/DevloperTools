@@ -7,11 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ToolLayoutComponent } from '../shared/tool-layout.component';
 
 @Component({
   selector: 'app-json-editor',
   standalone: true,
-  imports: [FormsModule, NgIf, NgFor, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatRadioModule],
+  imports: [ToolLayoutComponent, FormsModule, NgIf, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatRadioModule],
   templateUrl: './json-editor.component.html',
   styleUrls: ['./json-editor.component.scss'],
 })
@@ -60,92 +61,82 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
       this.errorMessage = 'Please enter JSON to format.';
       return;
     }
-
-    try {
-      // Basic validation to ensure it's JSON-like before formatting
-      const trimmedInput = this.jsonInput.trim();
-      if (!trimmedInput.startsWith('{') && !trimmedInput.startsWith('[')) {
-        throw new Error('Not a valid JSON structure');
-      }
-
-      // Custom formatting to preserve duplicates
-      this.formattedJson = this.formatJsonWithDuplicates(this.jsonInput);
-      this.errorMessage = 'Formatted successfully!';
-    } catch (e) {
-      this.errorMessage = 'Invalid JSON: Syntax error.';
-    }
+    this.formattedJson = this.formatJsonWithDuplicates(this.jsonInput);
+    this.errorMessage = 'Formatted successfully!';
   }
 
-  // Custom method to format JSON while preserving duplicates
   formatJsonWithDuplicates(jsonStr: string): string {
     let indentLevel = 0;
     const indent = '  '; // 2 spaces
     let result = '';
     let inString = false;
+    let prevChar = '';
 
     for (let i = 0; i < jsonStr.length; i++) {
       const char = jsonStr[i];
-
-      if (char === '"') {
-        inString = !inString;
-        result += char;
-        continue;
-      }
-
       if (inString) {
         result += char;
-        continue;
-      }
-
-      switch (char) {
-        case '{':
-        case '[':
-          result += char + '\n';
-          indentLevel++;
-          result += indent.repeat(indentLevel);
-          break;
-        case '}':
-        case ']':
-          result += '\n';
-          indentLevel--;
-          result += indent.repeat(indentLevel) + char;
-          break;
-        case ',':
-          result += char + '\n' + indent.repeat(indentLevel);
-          break;
-        case ':':
-          result += char + ' ';
-          break;
-        case ' ':
-        case '\n':
-        case '\t':
-          // Skip excessive whitespace unless in a string
-          if (result.slice(-1) !== ' ' && result.slice(-1) !== '\n') {
-            result += ' ';
-          }
-          break;
-        default:
+        if (char === '"' && prevChar !== '\\') {
+          inString = false;
+        }
+      } else {
+        if (char === '"') {
+          inString = true;
           result += char;
+        } else {
+          switch (char) {
+            case '{':
+            case '[':
+              result += char + '\n';
+              indentLevel++;
+              result += indent.repeat(indentLevel);
+              break;
+            case '}':
+            case ']':
+              result += '\n';
+              indentLevel--;
+              result += indent.repeat(indentLevel) + char;
+              break;
+            case ',':
+              result += char + '\n' + indent.repeat(indentLevel);
+              break;
+            case ':':
+              result += char + ' ';
+              break;
+            case ' ':
+            case '\n':
+            case '\t':
+              if (result.slice(-1) !== ' ' && result.slice(-1) !== '\n') {
+                result += ' ';
+              }
+              break;
+            default:
+              result += char;
+          }
+        }
       }
+      prevChar = char;
     }
-
     return result.trim();
   }
 
   validateJson() {
     if (!this.jsonInput.trim()) {
       this.errorMessage = 'Please enter JSON to validate.';
+      console.warn(this.errorMessage); // Debugging log
       return;
     }
-
+  
     try {
-      // Use JSON.parse to validate, but this won't preserve duplicates
-      JSON.parse(this.jsonInput);
-      this.errorMessage = 'Valid JSON (Note: Duplicates will be ignored by standard parsers)';
+      JSON.parse(this.jsonInput); // Validate JSON
+      this.errorMessage = '✅ Valid JSON!'; // Show success message
     } catch (e) {
-      this.errorMessage = 'Invalid JSON: Syntax error.';
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      this.errorMessage = `❌ Invalid JSON: ${errorMessage}`;
+      console.error(this.errorMessage); // Debugging log
     }
   }
+  
 
   clearInput() {
     this.jsonInput = '';

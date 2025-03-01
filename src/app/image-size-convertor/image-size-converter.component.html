@@ -1,70 +1,54 @@
-<!-- SEO Meta Tags -->
-<head>
-  <title>Image Size Converter Online | Resize Images Easily</title>
-  <meta name="description" content="Resize images to a specific file size (KB) online. Upload an image and adjust its size for free with our Image Size Converter.">
-  <meta name="keywords" content="Image Size Converter, Resize Image, Reduce Image Size, Compress Image Online">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="devlopertools.com">
+<app-tool-layout
+  title="Image Size Converter - Resize Images Online"
+  subtitle="Resize images to a specific file size (KB) quickly and easily"
+  [howToUse]="[
+    'Upload up to 10 images.',
+    'Enter the target file size in KB.',
+    'Click Resize to process all images.',
+    'Download the resized images as needed.',
+    'Use Reset to clear everything and start over.'
+  ]"
+>
+  <div tool-content>
+    <mat-card class="converter-card">
 
-  <!-- Open Graph for Social Media -->
-  <meta property="og:title" content="Image Size Converter Online | Resize Images Easily">
-  <meta property="og:description" content="Resize images to a specific file size (KB) online. Upload an image and adjust its size for free with our Image Size Converter.">
-  <meta property="og:url" content="https://www.devlopertools.com/image-size-converter">
-  <meta property="og:image" content="https://www.devlopertools.com/assets/image-resizer-preview.png">
-  <meta property="og:type" content="website">
+      <!-- Image Upload Section -->
+      <div class="upload-section" style="margin-top: 10px;">
+        <label for="fileUpload" class="file-upload-label">
+          Upload Images (Max 10):
+          <input id="fileUpload" type="file" (change)="onFilesSelected($event)" accept="image/*" multiple aria-label="Upload Images" />
+        </label>
+      </div>
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Image Size Converter Online | Resize Images Easily">
-  <meta name="twitter:description" content="Upload and resize images online to match your desired file size. Try our free Image Size Converter now!">
-</head>
+      <!-- Target Size Input Section -->
+      <div *ngIf="originalImages.length > 0" class="target-size-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Target Size (KB)</mat-label>
+          <input matInput type="number" [(ngModel)]="targetSizeKB" min="10" max="5120" aria-label="Target Image Size in KB" />
+        </mat-form-field>
 
-<mat-card class="converter-card">
-  <mat-card-title>Image Size Converter - Resize Images Online</mat-card-title>
+        <div class="button-group">
+          <button mat-raised-button color="primary" (click)="resizeImages()" aria-label="Resize Images">Resize All</button>
+          <button mat-raised-button color="warn" (click)="resetAll()" aria-label="Reset All">Reset</button>
+        </div>
+      </div>
 
-  <!-- Image Upload Section -->
-  <div class="upload-section">
-    <label for="fileUpload" class="file-upload-label">
-      Upload an Image:
-      <input id="fileUpload" type="file" (change)="onFileSelected($event)" accept="image/*" aria-label="Upload Image" />
-    </label>
+      <!-- Loading Indicator -->
+      <div *ngIf="loading" class="loading" aria-live="polite">Resizing images, please wait...</div>
+
+      <!-- Resized Image Previews -->
+      <div *ngIf="resizedImages.length > 0" class="result-section">
+        <mat-card-subtitle>Resized Image Previews</mat-card-subtitle>
+        
+        <div class="image-preview-container">
+          <div *ngFor="let image of resizedImages" class="image-card">
+            <img [src]="image.url" alt="Resized Image Preview" class="resized-image" />
+            <button mat-raised-button color="accent" (click)="downloadImage(image.url, image.name)" aria-label="Download Resized Image">
+              Download {{ image.name }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card>
   </div>
-
-  <!-- Target Size Input Section -->
-  <div *ngIf="originalImage" class="target-size-section">
-    <mat-form-field appearance="outline">
-      <mat-label>Target Size (KB)</mat-label>
-      <input matInput type="number" [(ngModel)]="targetSizeKB" min="10" max="5120" aria-label="Target Image Size in KB" />
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" (click)="resizeImage()" aria-label="Resize Image">Resize</button>
-  </div>
-
-  <!-- Loading Indicator -->
-  <div *ngIf="loading" class="loading" aria-live="polite">Resizing image, please wait...</div>
-
-  <!-- Resized Image Preview -->
-  <div *ngIf="resizedImageURL" class="result-section">
-    <mat-card-subtitle>Resized Image Preview</mat-card-subtitle>
-    <img [src]="resizedImageURL" alt="Resized Image Preview" class="resized-image" />
-    <button mat-raised-button color="accent" (click)="downloadImage()" aria-label="Download Resized Image">Download Resized Image</button>
-  </div>
-</mat-card>
-
-<!-- JSON-LD Schema Markup for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Image Size Converter",
-  "url": "https://www.devlopertools.com/image-size-converter",
-  "description": "Free online tool to resize images to a specific file size in KB. Easily upload and adjust image size for better optimization.",
-  "applicationCategory": "WebApplication",
-  "operatingSystem": "All",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "120"
-  }
-}
-</script>
+</app-tool-layout>

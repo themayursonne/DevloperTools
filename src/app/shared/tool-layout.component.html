@@ -1,0 +1,23 @@
+<mat-card class="tool-card">
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-subtitle>{{ subtitle }}</mat-card-subtitle>
+  
+    <div class="tool-layout">
+      <!-- Left Side: Main Tool Content -->
+      <div class="main-content">
+        <ng-content select="[tool-content]"></ng-content>
+      </div>
+  
+      <!-- Partition/Divider -->
+      <div class="partition"></div>
+  
+      <!-- Right Side: How to Use -->
+      <div class="how-to-use-container" *ngIf="howToUse && howToUse.length">
+        <mat-card-subtitle>How to Use</mat-card-subtitle>
+        <div class="how-to-use-content">
+          <p *ngFor="let step of howToUse">{{ step }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  

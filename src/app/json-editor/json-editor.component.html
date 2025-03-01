@@ -1,107 +1,43 @@
-<!-- Add metadata for SEO -->
-<head>
-  <title>JSON Editor Online | Format & Validate JSON Easily</title>
-  <meta name="description" content="Use our free JSON Editor online to format, validate, and beautify JSON data with real-time error detection.">
-  <meta name="keywords" content="JSON Editor, JSON Formatter, JSON Validator, Online JSON Parser">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="devlopertools.com">
-  <meta property="og:title" content="JSON Editor Online | Format & Validate JSON">
-  <meta property="og:description" content="Free JSON editor to format, validate, and highlight errors instantly.">
-  <meta property="og:url" content="https://www.devlopertools.com/json-editor">
-  <meta property="og:image" content="https://www.devlopertools.com/assets/json-editor-preview.png">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="JSON Editor Online | Format & Validate JSON Easily">
-  <meta name="twitter:description" content="Use our free JSON Editor online to format, validate, and beautify JSON data with real-time error detection.">
-</head>
-
-<mat-card class="editor-card">
-  <div class="editor-layout">
-    <!-- Left Side: Main Content -->
-    <div class="main-content">
-      <mat-card-title>JSON Editor - Free Online JSON Formatter</mat-card-title>
-      <mat-card-subtitle>Format, Validate, and Beautify JSON Instantly</mat-card-subtitle>
-
-      <div class="input-area">
-        <!-- Line Numbers -->
-        <div class="input-line-numbers" aria-hidden="true">
-          <div class="input-line-numbers-inner">
-            <div *ngFor="let lineNumber of lineNumbers" class="line-number">{{ lineNumber }}</div>
-          </div>
-        </div>
-
-        <!-- Textarea -->
-        <div class="textarea-container">
-          <mat-form-field appearance="fill">
-            <mat-label>Enter JSON</mat-label>
-            <textarea
-              #jsonInputTextarea
-              matInput
-              [(ngModel)]="jsonInput"
-              (ngModelChange)="onJsonInputChange()"
-              rows="10"
-              cols="50"
-              placeholder="Paste your JSON here..."
-              aria-label="JSON Input"
-            ></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div>
-        <button mat-raised-button color="primary" (click)="formatJson()" [disabled]="!jsonInput.trim()" aria-label="Format JSON">
-          Format
-        </button>
-        <button mat-raised-button color="accent" (click)="validateJson()" [disabled]="!jsonInput.trim()" aria-label="Validate JSON">
-          Validate
-        </button>
-        <button mat-raised-button (click)="clearInput()" aria-label="Clear Input">Clear</button>
-        <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!(formattedJson || jsonInput)" aria-label="Copy Result">
-          Copy
-        </button>
-      </div>
-
-      <div *ngIf="errorMessage" class="error" role="alert">{{ errorMessage }}</div>
-
-      <mat-radio-group [(ngModel)]="viewMode" (ngModelChange)="saveToLocalStorage()" class="view-mode" aria-label="View Mode">
-        <mat-radio-button value="text">Text</mat-radio-button>
-      </mat-radio-group>
-
-      <div *ngIf="viewMode === 'text' && formattedJson" class="result">
-        <pre aria-live="polite">{{ formattedJson }}</pre>
-      </div>
+<app-tool-layout
+  title="JSON Editor - Free Online JSON Formatter"
+  subtitle="Format, Validate, and Beautify JSON Instantly"
+  [howToUse]="[
+    'Enter JSON in the input area.',
+    'Use Format to prettify the JSON.',
+    'Validate to check syntax errors.',
+    'Copy or Clear as needed.'
+  ]"
+>
+  <div tool-content>
+    <div class="input-area">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Enter JSON</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="jsonInput"
+          (ngModelChange)="onJsonInputChange()"
+          rows="10"
+          cols="50"
+          placeholder="Paste your JSON here..."
+          aria-label="JSON Input"
+        ></textarea>
+      </mat-form-field>
     </div>
 
-    <!-- Partition/Divider -->
-    <div class="partition"></div>
-
-    <!-- Right Side: How to Use -->
-    <div class="how-to-use-container">
-      <mat-card-subtitle>How to Use the JSON Editor</mat-card-subtitle>
-      <div class="how-to-use-content">
-        <p>1. Enter JSON in the input area.</p>
-        <p>2. Use "Format" to prettify the JSON with indentation, or "Validate" to check its validity.</p>
-        <p>3. Choose to view the result as Text.</p>
-        <p>4. Use "Copy" to copy the result, or "Clear" to reset.</p>
-      </div>
+    <!-- Buttons with spacing -->
+    <div class="button-group">
+      <button mat-raised-button color="primary" (click)="formatJson()" aria-label="Format JSON">Format</button>
+      <button mat-raised-button color="accent" (click)="validateJson()" aria-label="Validate JSON">Validate</button>
+      <button mat-raised-button (click)="clearInput()" aria-label="Clear Input">Clear</button>
+      <button mat-raised-button color="accent" (click)="copyResult()"  [disabled]="!jsonInput.trim()" aria-label="Copy JSON">Copy</button>
     </div>
+
+    <div *ngIf="formattedJson" class="result">
+      <pre>{{ formattedJson }}</pre>
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    
   </div>
-</mat-card>
-
-<!-- Schema Markup for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "JSON Editor Online",
-  "url": "https://www.devlopertools.com/json-editor",
-  "description": "Free online JSON editor, formatter, and validator.",
-  "applicationCategory": "WebApplication",
-  "operatingSystem": "All",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "150"
-  }
-}
-</script>
+</app-tool-layout>
