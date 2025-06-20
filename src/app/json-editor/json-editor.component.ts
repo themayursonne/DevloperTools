@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -8,11 +16,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ToolLayoutComponent } from '../shared/tool-layout.component';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-json-editor',
   standalone: true,
-  imports: [ToolLayoutComponent, FormsModule, NgIf, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatRadioModule],
+  imports: [
+    ToolLayoutComponent,
+    FormsModule,
+    NgIf,
+    NgFor,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatRadioModule,
+  ],
   templateUrl: './json-editor.component.html',
   styleUrls: ['./json-editor.component.scss'],
 })
@@ -23,40 +42,56 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
   viewMode: 'text' = 'text';
   lineNumbers: number[] = [1];
 
-  @ViewChild('jsonInputTextarea', { static: false }) jsonInputTextarea!: ElementRef<HTMLTextAreaElement>;
+  private isBrowser: boolean;
 
-  constructor(private clipboard: Clipboard) {}
+  @ViewChild('jsonInputTextarea', { static: false })
+  jsonInputTextarea!: ElementRef<HTMLTextAreaElement>;
 
-  ngOnInit() {
-    this.jsonInput = localStorage.getItem('jsonInput') || '';
+  constructor(
+    private clipboard: Clipboard,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  ngOnInit(): void {
+    if (this.isBrowser) {
+      this.jsonInput = localStorage.getItem('jsonInput') || '';
+    } else {
+      this.jsonInput = '';
+    }
     this.updateLineNumbers();
   }
 
-  ngAfterViewInit() {
-    const textarea = this.jsonInputTextarea.nativeElement;
-    textarea.addEventListener('scroll', () => this.syncScroll());
-    this.updateLineNumbers();
+  ngAfterViewInit(): void {
+    if (this.isBrowser) {
+      const textarea = this.jsonInputTextarea.nativeElement;
+      textarea.addEventListener('scroll', () => this.syncScroll());
+      this.updateLineNumbers();
+    }
   }
 
-  onJsonInputChange() {
+  onJsonInputChange(): void {
     this.updateLineNumbers();
     this.saveToLocalStorage();
   }
 
-  updateLineNumbers() {
+  updateLineNumbers(): void {
     const lines = this.jsonInput ? this.jsonInput.split('\n').length : 1;
     this.lineNumbers = Array.from({ length: lines }, (_, i) => i + 1);
   }
 
-  syncScroll() {
+  syncScroll(): void {
     const textarea = this.jsonInputTextarea.nativeElement;
-    const lineNumbersInner = document.querySelector('.input-line-numbers-inner') as HTMLDivElement;
+    const lineNumbersInner = document.querySelector(
+      '.input-line-numbers-inner'
+    ) as HTMLDivElement;
     if (lineNumbersInner) {
       lineNumbersInner.style.top = `-${textarea.scrollTop}px`;
     }
   }
 
-  formatJson() {
+  formatJson(): void {
     if (!this.jsonInput.trim()) {
       this.errorMessage = 'Please enter JSON to format.';
       return;
@@ -67,7 +102,7 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
 
   formatJsonWithDuplicates(jsonStr: string): string {
     let indentLevel = 0;
-    const indent = '  '; // 2 spaces
+    const indent = '  ';
     let result = '';
     let inString = false;
     let prevChar = '';
@@ -120,42 +155,45 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
     return result.trim();
   }
 
-  validateJson() {
+  validateJson(): void {
     if (!this.jsonInput.trim()) {
       this.errorMessage = 'Please enter JSON to validate.';
-      console.warn(this.errorMessage); // Debugging log
+      console.warn(this.errorMessage);
       return;
     }
-  
+
     try {
-      JSON.parse(this.jsonInput); // Validate JSON
-      this.errorMessage = '✅ Valid JSON!'; // Show success message
+      JSON.parse(this.jsonInput);
+      this.errorMessage = '✅ Valid JSON!';
     } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
-      this.errorMessage = `❌ Invalid JSON: ${errorMessage}`;
-      console.error(this.errorMessage); // Debugging log
+      const msg = e instanceof Error ? e.message : 'Unknown error';
+      this.errorMessage = `❌ Invalid JSON: ${msg}`;
+      console.error(this.errorMessage);
     }
   }
-  
 
-  clearInput() {
+  clearInput(): void {
     this.jsonInput = '';
     this.formattedJson = '';
     this.errorMessage = '';
-    localStorage.removeItem('jsonInput');
+    if (this.isBrowser) {
+      localStorage.removeItem('jsonInput');
+    }
     this.updateLineNumbers();
   }
 
-  copyResult() {
-    const contentToCopy = this.formattedJson || this.jsonInput;
-    if (contentToCopy) {
-      this.clipboard.copy(contentToCopy);
+  copyResult(): void {
+    const content = this.formattedJson || this.jsonInput;
+    if (content) {
+      this.clipboard.copy(content);
       this.errorMessage = 'Copied to clipboard!';
       setTimeout(() => (this.errorMessage = ''), 2000);
     }
   }
 
-  saveToLocalStorage() {
-    localStorage.setItem('jsonInput', this.jsonInput);
+  saveToLocalStorage(): void {
+    if (this.isBrowser) {
+      localStorage.setItem('jsonInput', this.jsonInput);
+    }
   }
 }
