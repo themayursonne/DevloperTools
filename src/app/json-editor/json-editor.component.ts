@@ -189,7 +189,7 @@ export class JsonEditorComponent implements OnInit, AfterViewInit {
       setTimeout(() => (this.errorMessage = ''), 2000);
     }
   }
-
+  //save
   saveToLocalStorage(): void {
     if (this.isBrowser) {
       localStorage.setItem('jsonInput', this.jsonInput);
