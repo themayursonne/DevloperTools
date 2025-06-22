@@ -25,7 +25,6 @@ import { isPlatformBrowser } from '@angular/common';
     ToolLayoutComponent,
     FormsModule,
     NgIf,
-    NgFor,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

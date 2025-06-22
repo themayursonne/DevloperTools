@@ -6,17 +6,15 @@
   flex-direction: column;
 }
 
+/* Base layout (mobile-first) */
 .tool-layout {
   display: flex;
+  flex-direction: column; // 👈 ensures vertical stacking on small screens
   gap: 16px;
   width: 100%;
-  align-items: flex-start;
-  flex-wrap: wrap; // ✅ Allows content to wrap on small screens
 }
 
 .main-content {
-  flex: 1 1 100%;
-
   mat-form-field {
     width: 100%;
   }
@@ -50,11 +48,10 @@
   height: 1px;
   background-color: #ccc;
   margin: 16px 0;
-  display: none; // ✅ Hide by default
+  display: none; // Hidden on mobile
 }
 
 .how-to-use-container {
-  flex: 1 1 100%;
   width: 100%;
 
   mat-card-subtitle {
@@ -75,10 +72,11 @@
   }
 }
 
-/* ✅ Only apply side-by-side layout for medium and large screens */
+/* ✅ Desktop / Tablet layout only */
 @media (min-width: 768px) {
   .tool-layout {
-    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   .main-content {
