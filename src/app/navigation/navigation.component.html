@@ -1,7 +1,23 @@
-<mat-toolbar color="primary">
-    <span>Developer Tools</span>
-    <div class="spacer"></div>
+<mat-toolbar color="primary" class="toolbar">
+  <span class="logo">Developer Tools</span>
+  <span class="spacer"></span>
+
+  <!-- Desktop Menu -->
+  <div class="desktop-only">
     <a mat-button routerLink="/json-editor">JSON Editor</a>
     <a mat-button routerLink="/text-utilities">Text Utilities</a>
-    <a mat-button routerLink="/image-size-converter">Image Size Convertor</a>
-  </mat-toolbar>
+    <a mat-button routerLink="/image-size-converter">Image Size Converter</a>
+  </div>
+
+  <!-- Mobile Toggle -->
+  <button mat-icon-button class="mobile-only" (click)="menuOpened = !menuOpened" aria-label="Toggle Menu">
+    <mat-icon>{{ menuOpened ? 'close' : 'menu' }}</mat-icon>
+  </button>
+</mat-toolbar>
+
+<!-- Mobile Menu Dropdown -->
+<div class="mobile-menu" *ngIf="menuOpened">
+  <a mat-button routerLink="/json-editor" (click)="menuOpened = false">JSON Editor</a>
+  <a mat-button routerLink="/text-utilities" (click)="menuOpened = false">Text Utilities</a>
+  <a mat-button routerLink="/image-size-converter" (click)="menuOpened = false">Image Size Converter</a>
+</div>

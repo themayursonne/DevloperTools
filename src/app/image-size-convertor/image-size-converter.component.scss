@@ -5,8 +5,27 @@
 .button-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px; // ✅ Adds spacing between buttons
+  gap: 12px;
   margin-top: 12px;
+  justify-content: center; // ✅ Center align on smaller screens
+}
+
+.upload-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+
+  input[type="file"] {
+    display: block;
+    margin-top: 8px;
+  }
+}
+
+.target-size-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
 }
 
 .image-preview-container {
@@ -14,18 +33,72 @@
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  margin-top: 16px;
 }
 
 .image-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #f9f9f9;
+  max-width: 180px;
 }
 
 .resized-image {
-  max-width: 150px;
+  width: 100%;
   height: auto;
+  max-width: 150px;
   border: 1px solid #ddd;
   border-radius: 5px;
+}
+
+/* ✅ Responsive Breakpoints */
+@media (max-width: 768px) {
+  .converter-card {
+    padding: 16px;
+  }
+
+  .image-card {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .upload-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .target-size-section {
+    padding: 0 8px;
+  }
+
+  .image-preview-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .file-upload-label {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .image-card button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
 }
