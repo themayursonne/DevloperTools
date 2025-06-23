@@ -77,3 +77,39 @@
     }
   }
 }
+.base64-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.tool-section {
+  flex: 1 1 60%;
+}
+
+.notes-section {
+  flex: 1 1 35%;
+  background: #fdfdfd;
+  padding: 1rem;
+  border-left: 1px solid #eee;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .base64-container {
+    flex-direction: column;
+  }
+
+  .tool-section,
+  .notes-section {
+    flex: 1 1 100%;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .notes-section {
+    margin-top: 2rem;
+  }
+}
