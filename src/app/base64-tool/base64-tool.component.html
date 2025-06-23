@@ -1,0 +1,39 @@
+<div class="base64-tool">
+  <h2>Base64 Encode/Decode</h2>
+
+  <div class="controls">
+    <mat-form-field appearance="fill">
+      <mat-label>Mode</mat-label>
+      <mat-select [(ngModel)]="mode" (selectionChange)="onModeChange()">
+        <mat-option value="encode">Encode</mat-option>
+        <mat-option value="decode">Decode</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Show charset only in decode mode -->
+    <mat-form-field appearance="fill" *ngIf="mode === 'decode'">
+      <mat-label>Character Set</mat-label>
+      <mat-select [(ngModel)]="charset">
+        <mat-option *ngFor="let cs of charsets" [value]="cs">{{ cs.toUpperCase() }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="toggles">
+    <mat-checkbox [(ngModel)]="lineByLine">Decode each line separately</mat-checkbox>
+    <mat-checkbox [(ngModel)]="liveMode">Live Mode (client-side only)</mat-checkbox>
+  </div>
+
+  <textarea
+    [(ngModel)]="input"
+    (ngModelChange)="liveMode && process()"
+    placeholder="Enter text or Base64 string here"
+    rows="8"
+    class="input-area"
+  ></textarea>
+
+  <button mat-raised-button color="primary" (click)="process()" *ngIf="!liveMode">Run</button>
+
+  <h3>Result:</h3>
+  <textarea [value]="output" readonly rows="10" class="output-area auto-resize"></textarea>
+</div>

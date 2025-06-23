@@ -1,0 +1,79 @@
+.base64-tool {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: #fefefe;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  textarea {
+    width: 100%;
+    font-family: monospace;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .input-area {
+    background: #f1f8ff;
+    min-height: 150px;
+  }
+
+  .output-area {
+    background: #e8f5e9;
+    min-height: 200px;
+  }
+
+  button {
+    align-self: start;
+    padding: 8px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .base64-tool {
+    padding: 1rem;
+
+    .controls {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .toggles {
+      flex-direction: column;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    textarea {
+      font-size: 14px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  }
+}
