@@ -1,12 +1,15 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideServerRendering } from '@angular/platform-server';
-import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+import { environment } from './environment/environment';
 
-if (enableProdMode) {
+
+if (environment.production) {
   enableProdMode();
 }
+
 
 export const bootstrapServer = () => {
   return bootstrapApplication(AppComponent, {
@@ -17,5 +20,5 @@ export const bootstrapServer = () => {
   }).catch(err => console.error(err));
 };
 
-// Add a default export to match the expected export in the build configuration
+
 export default bootstrapServer;
