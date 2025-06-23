@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/server",
+    "target": "ES2022",
+    "module": "es2022",                   
+    "moduleResolution": "node",          
+    "types": ["node"]
+  },
+  "files": ["src/main.server.ts"],
+  "angularCompilerOptions": {
+    "disableBootstrapModuleCheck": true
+  }
+}

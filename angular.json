@@ -42,15 +42,13 @@
             "outputPath": "dist/developer-tools",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/_redirects"  // ✅ Added _redirects file
+              "src/_redirects"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
@@ -98,6 +96,34 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "serve-ssr": {
+         "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "options": {
+            "browserTarget": "developer-tools:build",
+            "serverTarget": "developer-tools:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "developer-tools:build:production",
+              "serverTarget": "developer-tools:server:production"
+            }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/developer-tools-server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
