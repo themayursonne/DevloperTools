@@ -1,10 +1,24 @@
-<div class="base64-tool">
-  <h2>Base64 Encode/Decode</h2>
+<section
+  class="base64-tool"
+  itemscope
+  itemtype="https://schema.org/WebApplication"
+>
+  <meta itemprop="name" content="Base64 Encode/Decode Tool" />
+  <meta itemprop="applicationCategory" content="Developer Tool" />
+  <meta itemprop="url" content="https://yourdomain.com/base64-tool" />
+  <meta itemprop="description" content="Free online Base64 Encoder & Decoder. Convert text to base64 or decode base64 easily." />
+
+  <h1 itemprop="name">Base64 Encode/Decode</h1>
+
+  <p>
+    Use this free online Base64 encoder and decoder to convert plain text to base64 or decode base64 to human-readable text.
+    This tool is ideal for developers and programmers working with encoded data.
+  </p>
 
   <div class="controls">
     <mat-form-field appearance="fill">
       <mat-label>Mode</mat-label>
-      <mat-select [(ngModel)]="mode" (selectionChange)="onModeChange()">
+      <mat-select [(ngModel)]="mode" (selectionChange)="onModeChange()" aria-label="Select mode">
         <mat-option value="encode">Encode</mat-option>
         <mat-option value="decode">Decode</mat-option>
       </mat-select>
@@ -13,7 +27,7 @@
     <!-- Show charset only in decode mode -->
     <mat-form-field appearance="fill" *ngIf="mode === 'decode'">
       <mat-label>Character Set</mat-label>
-      <mat-select [(ngModel)]="charset">
+      <mat-select [(ngModel)]="charset" aria-label="Select character set">
         <mat-option *ngFor="let cs of charsets" [value]="cs">{{ cs.toUpperCase() }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -30,10 +44,11 @@
     placeholder="Enter text or Base64 string here"
     rows="8"
     class="input-area"
+    aria-label="Input area"
   ></textarea>
 
   <button mat-raised-button color="primary" (click)="process()" *ngIf="!liveMode">Run</button>
 
-  <h3>Result:</h3>
-  <textarea [value]="output" readonly rows="10" class="output-area auto-resize"></textarea>
-</div>
+  <h2>Result:</h2>
+  <textarea [value]="output" readonly rows="10" class="output-area auto-resize" aria-label="Output result"></textarea>
+</section>
