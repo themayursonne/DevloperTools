@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { Title } from '@angular/platform-browser';
+import { Meta } from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-base64-tool',
@@ -27,6 +30,17 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./base64-tool.component.scss']
 })
 export class Base64ToolComponent {
+  constructor(private title: Title, private meta: Meta,@Inject(DOCUMENT) private document: Document) {
+    this.title.setTitle('Base64 Encode Decode Tool – DeveloperTools');
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Free online Base64 Encoder & Decoder for developers. Convert text to base64 or decode it easily.'
+    });
+    const link: HTMLLinkElement = this.document.createElement('link');
+  link.setAttribute('rel', 'canonical');
+  link.setAttribute('href', 'https://www.developertools.com/base64-tool');
+  this.document.head.appendChild(link);
+  }
   input = '';
   output = '';
   mode: string = 'encode';

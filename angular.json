@@ -161,12 +161,12 @@
               },
               {
                 "glob": "robots.txt",
-                "input": "src/assets",
+                "input": "src",
                 "output": "/"
               },
               {
                 "glob": "sitemap.xml",
-                "input": "src/assets",
+                "input": "src",
                 "output": "/"
               }
             ],
