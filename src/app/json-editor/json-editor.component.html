@@ -1,43 +1,55 @@
 <app-tool-layout
-  title="JSON Editor - Free Online JSON Formatter"
-  subtitle="Format, Validate, and Beautify JSON Instantly"
+  title="JSON Editor - Simple Online Formatter"
   [howToUse]="[
-    'Enter JSON in the input area.',
-    'Use Format to prettify the JSON.',
-    'Validate to check syntax errors.',
-    'Copy or Clear as needed.'
+    'Paste your JSON below.',
+    'Use the buttons to format or validate it.',
+    'Copy or clear as needed.'
   ]"
 >
   <div tool-content>
-    <div class="input-area">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Enter JSON</mat-label>
-        <textarea
-          matInput
-          [(ngModel)]="jsonInput"
-          (ngModelChange)="onJsonInputChange()"
-          rows="10"
-          cols="50"
-          placeholder="Paste your JSON here..."
-          aria-label="JSON Input"
-        ></textarea>
-      </mat-form-field>
-    </div>
+    <!-- Side-by-side layout -->
+    <div class="editor-container">
+      
+      <!-- JSON Input Area -->
+      <div class="editor-pane">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Enter JSON</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="jsonInput"
+            (ngModelChange)="onJsonInputChange()"
+            rows="20"
+            placeholder="Paste your JSON here..."
+            aria-label="JSON Input"
+          ></textarea>
+        </mat-form-field>
 
-    <!-- Buttons with spacing -->
-    <div class="button-group">
-      <button mat-raised-button color="primary" (click)="formatJson()" aria-label="Format JSON">Format</button>
-      <button mat-raised-button color="accent" (click)="validateJson()" aria-label="Validate JSON">Validate</button>
-      <button mat-raised-button (click)="clearInput()" aria-label="Clear Input">Clear</button>
-      <button mat-raised-button color="accent" (click)="copyResult()"  [disabled]="!jsonInput.trim()" aria-label="Copy JSON">Copy</button>
-    </div>
+        <!-- Button group under input -->
+        <div class="button-group">
+          <button mat-flat-button color="primary" (click)="formatJson()">Format</button>
+          <button mat-flat-button color="accent" (click)="validateJson()">Validate</button>
+          <button mat-flat-button color="warn" (click)="clearInput()">Clear</button>
+          <button mat-flat-button (click)="copyResult()" [disabled]="!jsonInput.trim()">Copy</button>
+        </div>
+      </div>
 
-    <div *ngIf="formattedJson" class="result">
-      <pre>{{ formattedJson }}</pre>
+      <!-- JSON Output Area -->
+      <!-- JSON Output Area -->
+<div class="editor-pane">
+  <h3>Output</h3>
+  <div class="result">
+    <pre *ngIf="formattedJson; else placeholder">{{ formattedJson }}</pre>
+    <ng-template #placeholder>
+      <span style="color: #888;">Formatted JSON will appear here...</span>
+    </ng-template>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>
+
+
     </div>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-    
   </div>
 </app-tool-layout>
