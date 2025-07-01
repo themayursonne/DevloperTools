@@ -103,4 +103,12 @@ export class TextUtilitiesComponent implements OnInit {
   toggleHowToUse() {
     this.showHowToUse = !this.showHowToUse;
   }
+
+  sentenceCase() {
+  this.textInput = this.textInput
+    .toLowerCase()
+    .replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+  this.saveToLocalStorage();
+}
+
 }

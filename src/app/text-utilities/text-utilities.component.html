@@ -28,11 +28,12 @@
       <button mat-raised-button color="primary" (click)="toLowerCase()">Lowercase</button>
       <button mat-raised-button color="primary" (click)="toTitleCase()">Title Case</button>
       <button mat-raised-button color="primary" (click)="removeExtraSpaces()">Remove Extra Spaces</button>
+      <button mat-raised-button color="primary" (click)="sentenceCase()">Sentence Case</button>
       <button mat-raised-button color="primary" (click)="formatText()">Format</button>
       <button mat-raised-button (click)="clearInput()">Clear</button>
-      <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!textInput && !formattedText">
-        Copy
-      </button>
+      <button mat-raised-button color="accent" (click)="copyResult()" [disabled]="!textInput && !formattedText">Copy</button>
+      
+
     </div>
 
     <div aria-live="polite">Word Count: {{ wordCount }}</div>
