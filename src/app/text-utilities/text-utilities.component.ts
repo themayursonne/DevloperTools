@@ -47,9 +47,11 @@ export class TextUtilitiesComponent implements OnInit {
     this.wordCount;
   }
   toTitleCase() {
-    this.textInput = this.textInput.replace(/\b\w/g, char => char.toUpperCase());
-    this.saveToLocalStorage();
-  }
+  this.textInput = this.textInput
+    .toLowerCase()
+    .replace(/\b\w/g, char => char.toUpperCase());
+  this.saveToLocalStorage();
+}
 
   removeExtraSpaces() {
     this.textInput = this.textInput.replace(/\s+/g, ' ').trim();
