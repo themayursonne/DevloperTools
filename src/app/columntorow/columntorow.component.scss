@@ -1,0 +1,54 @@
+/* convert-column.component.scss or json-editor.component.scss */
+
+.full-width {
+  width: 100%;
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.editor-pane {
+  flex: 1 1 45%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.result {
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 12px;
+  min-height: 100px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+}
+
+.result pre {
+  margin: 0;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin-top: 12px;
+  font-weight: 500;
+  background-color: #ffe6e6;
+  padding: 8px 12px;
+  border-radius: 4px;
+}

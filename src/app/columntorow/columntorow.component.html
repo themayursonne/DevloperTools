@@ -1,0 +1,48 @@
+<app-tool-layout
+  title="Convert Excel Column to CSV Row"
+  subtitle="Paste column values and convert them to a comma-separated row instantly."
+  [howToUse]="[
+    'Paste Excel column values in the input box.',
+    'Click Convert to transform them into a CSV row.',
+    'Copy or clear the result as needed.'
+  ]"
+>
+  <div tool-content>
+    <!-- Your content layout here -->
+    <div class="editor-container">
+      <!-- Input Textarea -->
+      <div class="editor-pane">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Enter Excel Column Data</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="excelColumnInput"
+            rows="20"
+            placeholder="Paste one item per line..."
+          ></textarea>
+        </mat-form-field>
+
+        <div class="button-group">
+          <button mat-flat-button color="primary" (click)="convertExcelToCsv()">Convert</button>
+          <button mat-flat-button color="warn" (click)="clearExcelInput()">Clear</button>
+          <button mat-flat-button (click)="copyCsvOutput()" [disabled]="!csvOutput">Copy</button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="editor-pane">
+        <h3>Output</h3>
+        <div class="result">
+          <pre *ngIf="csvOutput; else placeholder">{{ csvOutput }}</pre>
+          <ng-template #placeholder>
+            <span style="color: #888;">Converted CSV will appear here...</span>
+          </ng-template>
+        </div>
+
+        <div *ngIf="csvErrorMessage" class="error-message">
+          {{ csvErrorMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</app-tool-layout>
