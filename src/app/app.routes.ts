@@ -13,5 +13,6 @@ export const routes: Routes = [
   { path: 'code-beautifier', component: CodeBeautifierComponent },
   { path: 'image-size-converter', component: ImageSizeConverterComponent },
   { path: 'base64-tool', component: Base64ToolComponent },
-  { path: 'columntorow', component: ColumnToRowComponent }
+  { path: 'columntorow', component: ColumnToRowComponent },
+  { path: '**', redirectTo: 'json-editor' }
 ];
