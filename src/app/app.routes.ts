@@ -16,5 +16,10 @@ export const routes: Routes = [
   { path: 'columntorow', component: ColumnToRowComponent },
   { path: '', redirectTo: 'base64-tool', pathMatch: 'full' },
   { path: 'base64-tool', component: Base64ToolComponent },
+<<<<<<< HEAD
   { path: '**', redirectTo: 'base64-tool' } 
+=======
+  { path: 'columntorow', component: ColumnToRowComponent },
+  { path: '**', redirectTo: 'json-editor' }
+>>>>>>> 0b92b67c01e79391a3e4bcd29e938937ef764443
 ];
