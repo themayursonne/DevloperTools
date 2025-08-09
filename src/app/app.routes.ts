@@ -5,14 +5,16 @@ import { CodeBeautifierComponent } from './code-beautifier/code-beautifier.compo
 import { ImageSizeConverterComponent } from './image-size-convertor/image-size-converter.component';
 import { ColumnToRowComponent } from './columntorow/columntorow.component';
 import { Base64ToolComponent } from './base64-tool/base64-tool.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { serverRoutes } from './app.routes.server';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'base64-tool', pathMatch: 'full' }, // default route
+  { path: '', component: LandingPageComponent }, // Landing page
   { path: 'json-editor', component: JsonEditorComponent },
   { path: 'text-utilities', component: TextUtilitiesComponent },
   { path: 'code-beautifier', component: CodeBeautifierComponent },
   { path: 'image-size-converter', component: ImageSizeConverterComponent },
   { path: 'columntorow', component: ColumnToRowComponent },
   { path: 'base64-tool', component: Base64ToolComponent },
-  { path: '**', redirectTo: 'base64-tool' } // wildcard route
+  { path: '**', redirectTo: '' } // fallback to landing page
 ];

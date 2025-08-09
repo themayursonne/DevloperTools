@@ -1,0 +1,10 @@
+<div class="container">
+  <h2 class="title">My Tools</h2>
+
+  <div class="grid">
+    <div class="card" *ngFor="let app of apps" (click)="openApp(app.route)">
+      <h3>{{ app.name }}</h3>
+      <p>{{ app.description }}</p>
+    </div>
+  </div>
+</div>
